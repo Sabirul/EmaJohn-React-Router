@@ -1,12 +1,27 @@
+import logo from './logo.svg';
 import './App.css';
 import Header from './components/Header/Header';
 import Shop from './components/Shop/Shop';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Inventory from './components/Inventory/Inventory';
+import Review from './components/Review/Review';
+import NotFount from './components/NotFound/NotFount';
 
 function App() {
   return (
-    <div>
+    <div className="App">
+     
+      <BrowserRouter>
       <Header></Header>
-      <Shop></Shop>
+      <Routes>
+      <Route path='/' element={<Shop/>} />
+        <Route path='/shop' element ={<Shop/>}/>
+        <Route path='/inventory' element={<Inventory/>}/>
+        <Route path='/review' element={<Review/>}/>
+        <Route path='*' element={<NotFount/>}/>
+      </Routes>
+      </BrowserRouter>
+      
     </div>
   );
 }
