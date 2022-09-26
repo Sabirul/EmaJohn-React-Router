@@ -1,7 +1,8 @@
 import React from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import useCart from '../../Hooks/UseCart';
 import useProducts from '../../Hooks/UseProducts';
-import { removeFromDb } from '../../utilities/fakedb';
+import { clearTheCart, removeFromDb } from '../../utilities/fakedb';
 import Cart from '../Cart/Cart';
 import ReviewItem from '../ReviewItem/ReviewItem';
 
@@ -13,6 +14,12 @@ const Review = () => {
         const newCart = cart.filter(product => product.key !== key);
         setCart(newCart);
         removeFromDb(key);
+    }
+    const history = useNavigate();
+    const placeOrder = ()=>{
+        history('/placeOrder');
+        setCart([]);
+        clearTheCart();
     }
   
     return (
@@ -30,7 +37,9 @@ const Review = () => {
             </div>
 
             <div className='cart-container'>
-                <Cart cart ={cart}></Cart>
+                <Cart cart ={cart}>
+                <button onClick={placeOrder} className='btn-regular'>Place Your order</button>
+                </Cart>
             </div>
            
         </div>

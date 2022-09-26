@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
 import { addToDb, getStoredCart } from '../../utilities/fakedb';
 import Cart from '../Cart/Cart';
 import Product from '../Product/Product';
@@ -41,8 +42,18 @@ useEffect(() => {
 },[products])
 
 const evenHandler = parameter =>{
-    console.log(cart);
-    const newCart = [...cart, parameter];
+    let newCart = [];
+    const exist = cart.find(product => product.key === parameter.key);
+
+    if(exist){
+        const rest = cart.filter(product => product.key !== parameter.key);
+        exist.quantity += 1; 
+
+        newCart =[...rest, parameter];
+    }
+    else{
+        newCart= [...cart, parameter];
+    }
     setCart(newCart);
     addToDb(parameter.key);
 }
@@ -75,7 +86,11 @@ const handlerSearch = event => {
                     }
                 </div>
                 <div className='cart-container'>
-                    <Cart cart={cart}></Cart>
+                    <Cart cart={cart}>
+                    <NavLink to='/review'>
+                        <button className='btn-regular'>Review Your Order</button>
+                    </NavLink>
+                    </Cart>
 
                 </div>
                 
